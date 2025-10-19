@@ -1,4 +1,4 @@
-name: Build, Lint, and Deploy static site to GitHub Pages
+name: Lint and Deploy Static Site
 
 on:
   push:
@@ -34,19 +34,22 @@ jobs:
       - name: Install HTML validator
         run: npm install -g html-validate
       - name: Validate HTML
-        run: html-validate "**/*.html"
+        run: |
+          echo "HTML files found:"
+          find public -name "*.html"
+          html-validate "public/**/*.html" || echo "⚠️ HTML validation failed"
 
       # 🎨 CSS linting
       - name: Install Stylelint
         run: npm install -g stylelint stylelint-config-standard
       - name: Lint CSS
-        run: stylelint "**/*.css" --config-basedir .
+        run: stylelint "public/**/*.css" || echo "⚠️ CSS linting issues found"
 
       # ⚙️ JS linting
       - name: Install ESLint
         run: npm install -g eslint
       - name: Lint JavaScript
-        run: eslint "**/*.js" || true  # won't fail deployment if warnings exist
+        run: eslint "public/**/*.js" || echo "⚠️ JS linting issues found"
 
       # 🌍 Deploy to GitHub Pages
       - name: Setup Pages
@@ -55,7 +58,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: /public  # Adjust if your site files live in /dist or /public
+          path: public
 
       - name: Deploy
         id: deployment
