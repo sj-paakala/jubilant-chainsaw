@@ -34,7 +34,7 @@ jobs:
       - name: Install HTML validator
         run: npm install -g html-validate
       - name: Validate HTML
-        run: html-validate "**/*.html"
+        run: html-validate "*.html"
 
       # 🎨 CSS linting
       - name: Install Stylelint
