@@ -55,7 +55,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .  # Adjust if your site files live in /dist or /public
+          path: /public  # Adjust if your site files live in /dist or /public
 
       - name: Deploy
         id: deployment
